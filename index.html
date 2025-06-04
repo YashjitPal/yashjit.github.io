@@ -6,9 +6,8 @@
     <title>Yashjit Pal - Personal Portfolio</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide-react@latest/dist/lucide-react.js"></script>
-    <!-- Ensure this is lucide-static.js for direct JS usage -->
-    <script src="https://unpkg.com/lucide-static@latest/dist/lucide.js"></script>
+    <!-- Lucide Icons: Using the static version for direct browser use -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <!-- Google AI SDK -->
     <script type="module" src="https://cdn.jsdelivr.net/npm/@google/generative-ai/+esm"></script>
@@ -24,7 +23,8 @@
                         'brand-accent': '#FF8A00', // Accent color
                     },
                     backgroundImage: {
-                        'desert-scape': "url('https://ibb.co/9ksbD5qW')",
+                        // Updated background image to use local bg.png
+                        'desert-scape': "url('bg.png')",
                     }
                 }
             }
@@ -36,102 +36,112 @@
             font-family: 'Inter', 'sans-serif';
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            overflow-x: hidden;
+            overflow-x: hidden; /* Prevent horizontal scroll */
             position: relative;
         }
 
-        /* Custom scrollbar */
+        /* Custom scrollbar for a subtle look */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.5); }
 
+        /* Glassmorphism effect for cards */
         .glass-effect {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.05); /* Semi-transparent white */
             backdrop-filter: blur(20px) saturate(180%);
-            -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
+            -webkit-backdrop-filter: blur(20px) saturate(180%); /* For Safari */
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border */
+            border-radius: 20px; /* Rounded corners */
         }
 
+        /* Darker glassmorphism effect */
         .glass-effect-darker {
-            background: rgba(0, 0, 0, 0.15); 
-            backdrop-filter: blur(20px) saturate(160%); 
+            background: rgba(0, 0, 0, 0.15); /* Semi-transparent black */
+            backdrop-filter: blur(20px) saturate(160%);
             -webkit-backdrop-filter: blur(20px) saturate(160%);
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 20px; 
+            border-radius: 20px;
         }
-        .glass-effect-chat { 
-            background: rgba(0, 0, 0, 0.20); 
+        /* Specific glass effect for chat area */
+        .glass-effect-chat {
+            background: rgba(0, 0, 0, 0.20);
             backdrop-filter: blur(15px) saturate(160%);
             -webkit-backdrop-filter: blur(15px) saturate(160%);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 20px;
-            max-height: 95vh; 
+            border-radius: 20px; /* Consistent rounded corners */
+            /* max-height: 95vh; REMOVED this line to allow dynamic height */
         }
 
-
+        /* Styling for large display numbers (e.g., section numbers) */
         .display-number { font-size: clamp(6rem, 15vw, 12rem); font-weight: 900; line-height: 1; color: rgba(255, 255, 255, 0.8); opacity: 0.6; }
+        /* Social media icon styling */
         .icon-social { width: 32px; height: 32px; }
+        /* Text shadow for better readability on varied backgrounds */
         .text-shadow { text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3); }
+        /* Detail label styling (e.g., for "INTRODUCTION", "INTERESTS") */
         .detail-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255, 255, 255, 0.6); }
-        .btn-custom { padding: 12px 24px; border-radius: 9999px; font-weight: 600; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
+        /* Custom button styling */
+        .btn-custom { padding: 12px 24px; border-radius: 9999px; /* Pill shape */ font-weight: 600; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px; }
         .btn-primary-glass { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: white; border: 1px solid rgba(255, 255, 255, 0.2); }
         .btn-primary-glass:hover { background: rgba(255, 255, 255, 0.2); transform: translateY(-2px); box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        /* Header bar styling with glass effect */
         .header-glass-bar { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px) saturate(180%); -webkit-backdrop-filter: blur(25px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 20px; padding: 0.5rem 1rem; }
+        /* Full screen layout helper */
         .full-screen-layout { min-height: 100vh; display: flex; flex-direction: column; }
+        /* Social link box styling */
         .social-link-box { display: flex; align-items: center; justify-content: center; padding: 1rem 4rem; transition: all 0.3s ease; text-decoration: none; color: white; }
         .social-link-box:hover { background: rgba(255, 255, 255, 0.15); transform: translateY(-3px); }
 
         /* Chat specific styles */
-        .chat-messages { 
-            flex-grow: 1; 
-            overflow-y: auto; 
-            padding: 0.75rem; 
+        .chat-messages {
+            flex-grow: 1; /* Allows the message area to take available space */
+            overflow-y: auto; /* Scroll for overflow */
+            padding: 0.75rem;
             display: flex;
-            flex-direction: column;
-            gap: 0.75rem; 
+            flex-direction: column; /* Stack messages vertically */
+            gap: 0.75rem; /* Space between messages */
         }
         .chat-message {
-            padding: 0.5rem 0.75rem; 
-            border-radius: 12px;
-            max-width: 80%;
+            padding: 0.5rem 0.75rem;
+            border-radius: 12px; /* Rounded message bubbles */
+            max-width: 80%; /* Limit message width */
             line-height: 1.4;
-            font-size: 0.875rem; 
+            font-size: 0.875rem; /* Slightly smaller font for chat */
         }
-        .chat-message.user {
+        .chat-message.user { /* User's messages */
             background-color: rgba(255, 255, 255, 0.15);
             color: white;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
+            align-self: flex-end; /* Align to the right */
+            border-bottom-right-radius: 4px; /* Differentiate user bubble shape */
         }
-        .chat-message.bot {
+        .chat-message.bot { /* Bot's messages */
             background-color: rgba(0, 0, 0, 0.3);
-            color: #e0e0e0;
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
+            color: #e0e0e0; /* Light gray text for bot */
+            align-self: flex-start; /* Align to the left */
+            border-bottom-left-radius: 4px; /* Differentiate bot bubble shape */
         }
         .chat-input-area {
-            padding: 0.75rem; 
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1); /* Separator line */
         }
         .chat-input {
             background-color: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
-            padding: 0.625rem 0.75rem; 
+            padding: 0.625rem 0.75rem;
             border-radius: 10px;
-            flex-grow: 1;
-            font-size: 0.875rem; 
+            flex-grow: 1; /* Input takes available width */
+            font-size: 0.875rem;
         }
         .chat-input::placeholder { color: rgba(255, 255, 255, 0.4); }
         .chat-send-button {
             background-color: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.2);
             color: white;
-            padding: 0.625rem; 
+            padding: 0.625rem;
             border-radius: 10px;
-            margin-left: 0.5rem; 
+            margin-left: 0.5rem; /* Space between input and button */
             transition: background-color 0.2s ease;
         }
         .chat-send-button:hover { background-color: rgba(255, 255, 255, 0.2); }
@@ -141,16 +151,22 @@
 </head>
 <body class="bg-desert-scape bg-cover bg-center bg-fixed text-white full-screen-layout font-inter antialiased">
 
+    <!-- Main container for the page content -->
     <div class="relative flex flex-col min-h-screen w-full p-4 md:p-6 lg:p-8 overflow-hidden">
 
+        <!-- Header Section -->
         <header class="w-full mb-6 md:mb-8 lg:mb-10 z-30 header-glass-bar">
              <div class="max-w-full mx-auto px-2 sm:px-4">
-                <div class="flex items-center justify-between h-16 md:h-20"> <div class="flex items-center space-x-6 md:space-x-8">
-                        <div class="flex items-center space-x-2 cursor-pointer">
+                <div class="flex items-center justify-between h-16 md:h-20">
+                    <!-- Logo and Name -->
+                    <div class="flex items-center space-x-6 md:space-x-8">
+                        <div class="flex items-center space-x-2 cursor-pointer" onclick="window.location.href='#top'">
                             <div class="header-logo-circle flex items-center justify-center rounded-full border-2 border-white/50 p-1">
-                                <span class="text-lg font-bold text-white leading-none">YP</span> </div>
+                                <span class="text-lg font-bold text-white leading-none">YP</span>
+                            </div>
                             <span class="text-xl font-bold text-shadow">Yashjit</span>
                         </div>
+                        <!-- Navigation Links for larger screens -->
                         <nav class="hidden md:flex items-center space-x-3 lg:space-x-4">
                             <a href="#about" class="text-sm font-medium text-gray-300 hover:text-white transition-colors duration-200 ease-in-out px-3 py-2 rounded-lg glass-effect">About</a>
                             <a href="#projects" class="text-sm font-medium text-gray-300 hover:text-white transition-colors duration-200 ease-in-out px-3 py-2 rounded-lg glass-effect">Projects</a>
@@ -159,8 +175,9 @@
                         </nav>
                     </div>
 
+                    <!-- Social Icons and Info Badge -->
                     <div class="flex items-center space-x-4 md:space-x-6">
-                        <a href="https://www.linkedin.com/in/yashjit-pal-6b6869266/" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-full glass-effect hover:bg-white/20 transition-colors duration-200">
+                        <a href="https://www.linkedin.com/in/yashjit-pal-6b6869266/" target="_blank" rel="noopener noreferrer" class="p-2.5 rounded-full glass-effect hover:bg-white/20 transition-colors duration-200" aria-label="LinkedIn Profile">
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-linkedin"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect width="4" height="12" x="2" y="9"></rect><circle cx="4" cy="4" r="2"></circle></svg>
                         </a>
                         <div class="hidden sm:flex items-center space-x-2 p-3 rounded-xl glass-effect-darker">
@@ -172,9 +189,12 @@
             </div>
         </header>
 
+        <!-- Main Content Grid -->
         <main class="flex-grow w-full max-w-7xl mx-auto grid grid-cols-12 gap-6 md:gap-8 relative z-10">
 
+            <!-- Left Sidebar Column -->
             <aside class="col-span-12 md:col-span-3 space-y-6 md:space-y-8 h-full flex flex-col">
+                <!-- Skills Card -->
                 <div class="glass-effect p-5 md:p-6 rounded-3xl h-auto flex flex-col">
                     <div>
                         <div class="flex items-start justify-between mb-4">
@@ -182,7 +202,7 @@
                                 <h2 class="text-xl sm:text-2xl font-bold text-white text-shadow">My Skills</h2>
                                 <p class="text-xs text-gray-300 uppercase tracking-wider">Tech Stack</p>
                             </div>
-                            <button class="p-2.5 rounded-full glass-effect hover:bg-white/10 focus:outline-none">
+                            <button class="p-2.5 rounded-full glass-effect hover:bg-white/10 focus:outline-none" aria-label="Search Skills">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-search text-white"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
                             </button>
                         </div>
@@ -199,26 +219,31 @@
                     </a>
                 </div>
 
-                <a href="https://github.com/yashjitPal" target="_blank" rel="noopener noreferrer" class="glass-effect social-link-box rounded-2xl">
+                <!-- Social Links Cards -->
+                <a href="https://github.com/yashjitPal" target="_blank" rel="noopener noreferrer" class="glass-effect social-link-box rounded-2xl" aria-label="GitHub Profile">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-github icon-social"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>
                 </a>
-                <a href="https://www.instagram.com/yashjitpal" target="_blank" rel="noopener noreferrer" class="glass-effect social-link-box rounded-2xl">
+                <a href="https://www.instagram.com/yashjitpal" target="_blank" rel="noopener noreferrer" class="glass-effect social-link-box rounded-2xl" aria-label="Instagram Profile">
                      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-instagram icon-social"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
                 </a>
-                <a href="https://x.com/yashjitp" target="_blank" rel="noopener noreferrer" class="glass-effect social-link-box rounded-2xl">
+                <a href="https://x.com/yashjitp" target="_blank" rel="noopener noreferrer" class="glass-effect social-link-box rounded-2xl" aria-label="Twitter Profile">
                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-twitter icon-social"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
                 </a>
 
+                <!-- Profile Image Card: Updated to use local myimg.jpg -->
                 <div class="glass-effect rounded-2xl p-2 flex-grow">
-                    <img src="https://media-hosting.imagekit.io/9ca3af4d725a4e16/Screenshot_2025-05-08-17-49-16-60_99c04817c0de5652397fc8b56c3b3817.webp?Expires=1841314822&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=Qk4htGKgqr3KlaoGFSdBQQpMYtbFPyQu5rBK7gn6NtsZWScZLNVOg26zfacHmWENfgK6STw1NuEt2Pf6kjtBjyTKhxdYi4KQi6UIWOC0-R8D3xy07a47Fo5Kwjvrf1HQHHDNgetlu40iMzkxKnpGPyY2PD~~gHhZfsXYtQO4bt9Zz65imO1UF6PQE5wJ9P6~l~mQmJc4m9K2rWIs1S4JwCIWXNSeL37qt9RbcH3eU1ze-E7EpVynH~rx3Dwla2seDjO952rmtS2vbnW9y-2GlIWb7AXGhqtlmI9ImPF6TVuryJnmwYIgKeIP0blj5LPhnJYEY~HDPdVGLSLhHe8reQ__"
+                    <img src="myimg.jpg"
                          alt="Yashjit Pal Profile"
-                         class="w-full h-full object-cover rounded-xl">
+                         class="w-full h-full object-cover rounded-xl"
+                         onerror="this.onerror=null;this.src='https://placehold.co/400x600/333333/FFFFFF?text=Profile+Image+Not+Found';"> <!-- Fallback placeholder image -->
                 </div>
             </aside>
 
+            <!-- Main Content Area (About Me & Chat) -->
             <section id="about" class="col-span-12 md:col-span-9">
                 <div class="main-content-card glass-effect-darker p-6 sm:p-8 md:p-10 lg:p-12 rounded-3xl h-full flex flex-col lg:flex-row gap-8 relative">
 
+                    <!-- About Me Text Content -->
                     <div class="w-full lg:w-1/2 flex-shrink-0 flex flex-col">
                         <div> <!-- Wrapper for all text content -->
                             <span class="display-number block mb-2 md:mb-4">01</span>
@@ -240,12 +265,15 @@
                             </div>
                         </div>
 
-                        <!-- NEW INTEREST CARDS SECTION -->
-                        <div class="mt-6 flex flex-col sm:flex-row gap-x-5 gap-y-5 justify-center md:justify-start">
-                            <!-- Card 1: Taylor Swift -->
+                        <!-- Interest Cards Section -->
+                        <div class="mt-6 flex flex-col sm:flex-row gap-x-5 gap-y-5 justify-center md:justify-start" id="interestCardsContainer">
+                            <!-- Card 1: Taylor Swift - Updated to use local ts.jpg -->
                             <div class="glass-effect-darker rounded-3xl p-3.5 flex flex-col text-white shadow-xl overflow-hidden" style="width: 220px; height: 360px;">
                                 <div class="relative h-[170px] rounded-2xl overflow-hidden mb-3 shadow-inner">
-                                    <img src="https://media-hosting.imagekit.io/3cbcef2bd8544949/Screenshot%202025-05-09%20135808.png?Expires=1841387475&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=Id-sBV-yIfXOZbU7jqtQB-T4miZ1wdWkN6VwHQUTX4B0ZYh-mak1wjgGMYc~uFmk~l91tOiVjXiWbfZZ02idqlKL5~R0CsbbjBS7jG6ARPFGlELeg9wGXIo6NIWEENbWUAsSslAlKeSxAEMXQ5HTLtMqCR8zGTmoBLrV0EWKqEpuc0tIVYheniV7khCJJxNzclEOZgBsjl0a25Fyp3sejaySQZgf~MmTn49FCGGoPACXzMGVUPSnXSFqx8e3ymgXaHDSj4rhnlEDNpMK~LqVUKXR1616spWlk-ozH3Cs~SWkOxbJVFR217R5tWBMgNGepLc0c474onnFsFA9DDpREg__" alt="Taylor Swift" class="absolute inset-0 w-full h-full object-cover object-top">
+                                    <img src="ts.jpg"
+                                         alt="Taylor Swift"
+                                         class="absolute inset-0 w-full h-full object-cover object-top"
+                                         onerror="this.onerror=null;this.src='https://placehold.co/200x170/444444/FFFFFF?text=Taylor+Swift';"> <!-- Fallback placeholder -->
                                 </div>
                                 <div class="flex flex-col flex-grow px-1">
                                     <h3 class="text-xl font-semibold mb-1.5 truncate" title="Taylor Swift">Taylor Swift</h3>
@@ -267,15 +295,18 @@
                                 </div>
                             </div>
 
-                            <!-- Card 2: Marvel -->
+                            <!-- Card 2: Marvel - Updated to use local marvel.jpg -->
                             <div class="glass-effect-darker rounded-3xl p-3.5 flex flex-col text-white shadow-xl overflow-hidden" style="width: 220px; height: 360px;">
                                 <div class="relative h-[170px] rounded-2xl overflow-hidden mb-3 shadow-inner">
-                                    <img src="https://media-hosting.imagekit.io/83e0b5885333418e/screenshot_1746779537095.png?Expires=1841387538&Key-Pair-Id=K2ZIVPTIP2VGHC&Signature=OnFidoAzUizjtZiIP5D-QroS7VnySixLAjyQtiRtlgbhmJDH2iOh4RHKnVmhMR3u0BcHCrmWfqFx41g2t7dFnxFXgbSyx0qJTL7wWiA8YYwBhc~xuoAdlCUDZaFI6y-bZRE0AZ73KmOB1wrXQrsKuT9q6oUwCBOcluaBWyw5~EafALjbJfwuUujz92bYeM~1NSfclIXD34BlVUnrodCpt-BkJmQfYVJ29g6wX1qaHo56sexJD5iqDwi4ynlnt6r-f5ZlYIoi8ey1NkxVP-T~yP1-Svlj13zTteIzF6QLaQCz3KjvNDdmfQOJi-qfsMBVLN1xOBkAY~0Dmapbc0Gx0g__" alt="Marvel - Scarlet Witch" class="absolute inset-0 w-full h-full object-cover object-top">
+                                    <img src="marvel.jpg"
+                                         alt="Marvel - Scarlet Witch"
+                                         class="absolute inset-0 w-full h-full object-cover object-top"
+                                         onerror="this.onerror=null;this.src='https://placehold.co/200x170/444444/FFFFFF?text=Marvel';"> <!-- Fallback placeholder -->
                                 </div>
                                 <div class="flex flex-col flex-grow px-1">
                                     <h3 class="text-xl font-semibold mb-1.5 truncate" title="Marvel Universe">Marvel Universe</h3>
                                     <p class="text-xs text-gray-300 leading-relaxed mb-3 flex-grow" style="font-size: 0.78rem; line-height: 1.45;">
-                                        Deep into the Marvel Cinematic Universe! WandaVision is my top series, and Scarlet Witch is my ultimate superhero.
+                                        Deep into the Marvel Cinematic Universe! WandaVision, and Scarlet Witch is my fav superhero.
                                     </p>
                                     <div class="flex flex-wrap gap-2 mb-3">
                                         <span class="bg-white/10 backdrop-blur-sm text-white/90 text-[11px] font-medium px-2.5 py-1 rounded-full">Entertainment</span>
@@ -291,19 +322,19 @@
                                     </div>
                                 </div>
                             </div>
-                        </div> 
+                        </div>
                     </div>
 
-                    <!-- Wrapper for Chatbox Column -->
+                    <!-- Chatbox Column -->
                     <div class="w-full lg:w-1/2 flex flex-col">
-                        <!-- Actual New Chatbox Area with top margin -->
-                        <div class="flex-grow flex flex-col glass-effect-chat p-0 overflow-hidden mt-16 md:mt-20">
+                        <!-- Chatbox Area -->
+                        <div class="flex-grow flex flex-col glass-effect-chat p-0 overflow-hidden mt-16 md:mt-20" id="chatboxElement"> <!-- ADDED ID HERE -->
                             <!-- Chatbox Header -->
                             <div class="p-4 border-b border-white/10">
                                 <h2 class="text-lg font-semibold text-white text-shadow">Chat with Yashjit (AI)</h2>
                                 <p class="text-xs text-gray-300">Ask me anything about my portfolio or interests!</p>
                             </div>
-                            <!-- Chat Messages -->
+                            <!-- Chat Messages Container -->
                             <div id="chatMessages" class="chat-messages">
                                 <!-- Initial bot message -->
                                 <div class="chat-message bot">Hello! I'm an AI version of Yashjit. Feel free to ask about my skills, projects, or anything else!</div>
@@ -311,13 +342,14 @@
                             <!-- Chat Input Area -->
                             <div class="chat-input-area flex items-center">
                                 <input type="text" id="chatInput" class="chat-input" placeholder="Type your message...">
-                                <button id="chatSendButton" class="chat-send-button">
+                                <button id="chatSendButton" class="chat-send-button" aria-label="Send chat message">
                                     <i data-lucide="send-horizontal"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
 
+                    <!-- Contact Me Button (Absolute Positioned) -->
                     <a href="mailto:yashjitp@gmail.com" class="absolute top-6 right-6 md:top-8 md:right-8 btn-custom btn-primary-glass text-xs sm:text-sm z-10">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-mail"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                         Contact Me
@@ -326,6 +358,7 @@
             </section>
         </main>
 
+        <!-- Footer Section -->
         <footer class="w-full mt-8 md:mt-12 lg:mt-16 z-20">
             <div class="max-w-full mx-auto px-2 sm:px-4">
                 <div class="glass-effect p-4 md:p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -345,7 +378,7 @@
                             <span class="text-xs sm:text-sm font-semibold text-gray-200 text-shadow">YASHJIT'S PORTFOLIO © 2025</span>
                         </div>
                     </div>
-                    <a href="#top" class="p-2.5 rounded-full glass-effect-darker hover:bg-white/10 transition-colors duration-200">
+                    <a href="#top" class="p-2.5 rounded-full glass-effect-darker hover:bg-white/10 transition-colors duration-200" aria-label="Scroll to top">
                         <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-up-right text-white"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
                     </a>
                 </div>
@@ -353,24 +386,28 @@
         </footer>
     </div>
 
+    <!-- JavaScript Module for Chat and Smooth Scroll -->
     <script type="module">
+        // Import necessary modules from Google Generative AI SDK
         import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "https://cdn.jsdelivr.net/npm/@google/generative-ai/+esm";
 
-        console.log("Module script started.");
+        // Log script start for debugging
+        // console.log("Module script started.");
 
+        // Initialize Lucide Icons
         try {
             if (typeof lucide !== 'undefined' && typeof lucide.createIcons === 'function') {
-                console.log("Lucide object found. Attempting to create icons.");
-                lucide.createIcons(); 
-                console.log("lucide.createIcons() called successfully.");
+                // console.log("Lucide object found. Attempting to create icons.");
+                lucide.createIcons();
+                // console.log("lucide.createIcons() called successfully.");
             } else {
-                console.error("Lucide object or createIcons function is NOT defined. Check if lucide-static.js loaded correctly and before this module script.");
+                console.error("Lucide object or createIcons function is NOT defined.");
             }
         } catch (e) {
             console.error("Error calling lucide.createIcons():", e);
         }
 
-        // Smooth scroll for anchor links
+        // Smooth scroll functionality
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -385,9 +422,9 @@
                 }
             });
         });
-        console.log("Smooth scroll listeners attached.");
+        // console.log("Smooth scroll listeners attached.");
 
-        // Chat functionality
+        // Chat functionality: Get references to HTML elements
         const chatMessagesContainer = document.getElementById('chatMessages');
         const chatInput = document.getElementById('chatInput');
         const chatSendButton = document.getElementById('chatSendButton');
@@ -396,11 +433,11 @@
         if (!chatInput) console.error("Chat input (chatInput) not found!");
         if (!chatSendButton) console.error("Chat send button (chatSendButton) not found!");
 
-        console.log("Chat UI elements selected:", { chatInput, chatSendButton, chatMessagesContainer });
+        // console.log("Chat UI elements selected:", { chatInput, chatSendButton, chatMessagesContainer });
 
 
         // --- Gemini API Configuration ---
-        const API_KEY = "AIzaSyDP3lPAagKyVE7XJVQcP-79uAr0eWhNmUM"; // Replace with your actual API key
+        const API_KEY = "AIzaSyDP3lPAagKyVE7XJVQcP-79uAr0eWhNmUM"; 
         const MODEL_NAME = "gemini-2.0-flash";
 
         const SYSTEM_PROMPT = `Instructions for Mimicking Yashjit Pal's Persona and Communication Style:
@@ -470,7 +507,7 @@ If a user asks for information that I wouldn't reasonably know (e.g., future eve
             });
             chatSession = model.startChat({
                 history: [],
-                generationConfig: { /* maxOutputTokens: 200, */ },
+                generationConfig: { /* maxOutputTokens: 200 */ },
                 safetySettings: [
                     { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
                     { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
@@ -478,7 +515,7 @@ If a user asks for information that I wouldn't reasonably know (e.g., future eve
                     { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_MEDIUM_AND_ABOVE },
                 ]
             });
-            console.log("Gemini AI Chat session initialized successfully.", chatSession);
+            // console.log("Gemini AI Chat session initialized successfully.", chatSession);
         } catch (error) {
             console.error("Error initializing Gemini AI:", error);
             if (chatMessagesContainer) {
@@ -493,6 +530,7 @@ If a user asks for information that I wouldn't reasonably know (e.g., future eve
             }
             const messageElement = document.createElement('div');
             messageElement.classList.add('chat-message', sender);
+
             if (isLoading) {
                 messageElement.classList.add('loading');
                 messageElement.innerHTML = `<span class="message-text">${message}</span><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>`;
@@ -503,18 +541,18 @@ If a user asks for information that I wouldn't reasonably know (e.g., future eve
             chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
         }
 
-        const style = document.createElement('style');
-        style.textContent = `
+        const typingIndicatorStyle = document.createElement('style');
+        typingIndicatorStyle.textContent = `
             .chat-message.loading .typing-dots { display: inline-block; margin-left: 4px; }
             .chat-message.loading .typing-dots span { opacity: 0; animation: blink 1.2s infinite; font-weight: bold; }
             .chat-message.loading .typing-dots span:nth-child(2) { animation-delay: 0.3s; }
             .chat-message.loading .typing-dots span:nth-child(3) { animation-delay: 0.6s; }
             @keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
         `;
-        document.head.appendChild(style);
+        document.head.appendChild(typingIndicatorStyle);
 
         async function getGeminiResponse(userMessage) {
-            console.log("getGeminiResponse called with:", userMessage);
+            // console.log("getGeminiResponse called with:", userMessage);
             if (!chatSession) {
                 console.warn("getGeminiResponse: chatSession is not initialized.");
                 addMessageToChat("My AI connection isn't ready. Please refresh or try again soon.", 'bot');
@@ -523,11 +561,11 @@ If a user asks for information that I wouldn't reasonably know (e.g., future eve
             addMessageToChat("Thinking", 'bot', true);
 
             try {
-                console.log("Sending message to Gemini:", userMessage);
+                // console.log("Sending message to Gemini:", userMessage);
                 const result = await chatSession.sendMessage(userMessage);
                 const response = result.response;
                 const text = response.text();
-                console.log("Received response from Gemini:", text);
+                // console.log("Received response from Gemini:", text);
 
                 const loadingElements = chatMessagesContainer.querySelectorAll('.chat-message.loading');
                 loadingElements.forEach(el => el.remove());
@@ -543,19 +581,19 @@ If a user asks for information that I wouldn't reasonably know (e.g., future eve
         }
 
         function handleSendMessage() {
-            console.log("handleSendMessage called.");
+            // console.log("handleSendMessage called.");
             if (!chatInput) {
                 console.error("handleSendMessage: chatInput is null.");
                 return;
             }
             const message = chatInput.value.trim();
-            console.log("Message from input:", message);
+            // console.log("Message from input:", message);
             if (message) {
                 addMessageToChat(message, 'user');
                 getGeminiResponse(message);
                 chatInput.value = '';
             } else {
-                console.log("Message is empty, not sending.");
+                // console.log("Message is empty, not sending.");
             }
         }
 
@@ -563,14 +601,81 @@ If a user asks for information that I wouldn't reasonably know (e.g., future eve
             chatSendButton.addEventListener('click', handleSendMessage);
             chatInput.addEventListener('keypress', function(event) {
                 if (event.key === 'Enter') {
-                    console.log("Enter key pressed in chat input.");
+                    // console.log("Enter key pressed in chat input.");
                     handleSendMessage();
                 }
             });
-            console.log("Event listeners for chat input and send button attached.");
+            // console.log("Event listeners for chat input and send button attached.");
         } else {
-            console.error("Could not attach event listeners: chatInput or chatSendButton is missing. This often happens if the script runs before these elements are in the DOM, or if their IDs are incorrect.");
+            console.error("Could not attach event listeners: chatInput or chatSendButton is missing.");
         }
+
+        // --- Chatbox Height Adjustment ---
+        const interestCardsContainerId = 'interestCardsContainer'; // Make sure this ID is on the div wrapping the interest cards
+        const chatboxElementId = 'chatboxElement'; // Make sure this ID is on the chatbox div itself (with glass-effect-chat)
+        const mainContentCardSelector = '.main-content-card'; // This is the parent flex container for the two columns
+
+        function adjustChatboxHeight() {
+            const interestCardsContainer = document.getElementById(interestCardsContainerId);
+            const chatboxElement = document.getElementById(chatboxElementId);
+            const mainContentCard = document.querySelector(mainContentCardSelector);
+
+            if (!interestCardsContainer || !chatboxElement || !mainContentCard) {
+                // console.warn("Chatbox height adjustment: Required elements not found.");
+                return;
+            }
+            
+            // Ensure elements are visible and have dimensions.
+            // This check is particularly important on initial load or if elements are dynamically shown/hidden.
+            if (interestCardsContainer.offsetHeight === 0 || mainContentCard.offsetHeight === 0 || chatboxElement.offsetParent === null) {
+                // console.warn("Chatbox height adjustment: One or more elements have zero height or are not visible. Retrying shortly...");
+                // requestAnimationFrame(adjustChatboxHeight); // Retry on next frame, be cautious with this to avoid loops if elements never become visible.
+                return;
+            }
+
+            const mainCardTop = mainContentCard.getBoundingClientRect().top;
+            
+            // Get the bottom Y-coordinate of the interest cards container, relative to the mainContentCard's top.
+            const interestCardsBottomRelativeToMainCard = interestCardsContainer.getBoundingClientRect().bottom - mainCardTop;
+            
+            // Get the top Y-coordinate of the chatbox element (where its border/padding box starts), relative to the mainContentCard's top.
+            // This accounts for any margins on the chatboxElement itself.
+            const chatboxElementTopRelativeToMainCard = chatboxElement.getBoundingClientRect().top - mainCardTop;
+
+            // The desired height for chatboxElement is the difference.
+            const desiredHeight = interestCardsBottomRelativeToMainCard - chatboxElementTopRelativeToMainCard;
+
+            if (desiredHeight > 50) { // Set a minimum reasonable height (e.g., 50px)
+                chatboxElement.style.height = `${desiredHeight}px`;
+                // console.log(`Chatbox height dynamically set to: ${desiredHeight}px`);
+            } else {
+                // console.warn("Chatbox height adjustment: Calculated height is too small or negative.", {
+                //     interestCardsBottomRelativeToMainCard,
+                //     chatboxElementTopRelativeToMainCard,
+                //     desiredHeight
+                // });
+                // Fallback: if calculation is off, maybe set to a default or ensure it doesn't collapse.
+                // For example, you could set a min-height via CSS or here as a fallback.
+                // chatboxElement.style.height = '300px'; // Or some other sensible default.
+            }
+        }
+
+        // Adjust height on initial load (after all resources like images are loaded)
+        window.addEventListener('load', () => {
+            adjustChatboxHeight();
+            // Sometimes, a slight delay helps if other scripts are manipulating layout post-load.
+            setTimeout(adjustChatboxHeight, 100); 
+        });
+        
+        // Adjust height on window resize
+        window.addEventListener('resize', adjustChatboxHeight);
+
+        // It's also good practice to call it once after DOM is ready, 
+        // though 'load' is generally better for dimensions affected by images.
+        document.addEventListener('DOMContentLoaded', () => {
+            // adjustChatboxHeight(); // Dimensions might not be final yet if images are still loading
+        });
+
     </script>
 </body>
 </html>
